@@ -1,0 +1,667 @@
+{
+    "tags": [
+        {
+            "name": "callback"
+        },
+        {
+            "name": "template"
+        }
+    ],
+    "editor": true,
+    "id": "41",
+    "createdAt": "1663318929308",
+    "createdBy": {
+        "id": "2"
+    },
+    "updatedAt": "1663323338114",
+    "updatedBy": {
+        "id": "2"
+    },
+    "name": "Call back form template",
+    "type": "processing",
+    "schema": "[\n    {\n        \"break\": false,\n        \"set\": {\n            \"cb_CommunicationTypeId\": \"\",\n            \"cb_DialerId\": \"\"\n        },\n        \"tag\": \"42-set-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"formComponent\": {\n            \"id\": \"cb_Info\",\n            \"view\": {\n                \"color\": \"default\",\n                \"component\": \"form-text\",\n                \"hint\": \"\",\n                \"initialValue\": \"Enter details to schedule a call back\",\n                \"label\": \"\"\n            }\n        },\n        \"tag\": \"31-formText-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"formComponent\": {\n            \"id\": \"cb_Name\",\n            \"view\": {\n                \"component\": \"wt-input\",\n                \"hint\": \"\",\n                \"initialValue\": \"\",\n                \"label\": \"Contact name\"\n            }\n        },\n        \"tag\": \"32-formTextfield-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"formComponent\": {\n            \"id\": \"cb_Destination\",\n            \"view\": {\n                \"component\": \"wt-input\",\n                \"hint\": \"\",\n                \"initialValue\": \"\",\n                \"label\": \"Phone Number\"\n            }\n        },\n        \"tag\": \"34-formTextfield-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"formComponent\": {\n            \"id\": \"cb_DateTime\",\n            \"view\": {\n                \"component\": \"wt-datetimepicker\",\n                \"hint\": \"\",\n                \"initialValue\": 1663315228820,\n                \"label\": \"Preferred Date and Time\"\n            }\n        },\n        \"tag\": \"35-formDatetimePicker-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"formComponent\": {\n            \"id\": \"cb_Notes\",\n            \"view\": {\n                \"component\": \"wt-textarea\",\n                \"hint\": \"\",\n                \"initialValue\": \"Notes\",\n                \"label\": \"\"\n            }\n        },\n        \"tag\": \"37-formTextfield-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"generateForm\": {\n            \"actions\": [\n                {\n                    \"id\": \"cancel\",\n                    \"view\": {\n                        \"color\": \"danger\",\n                        \"text\": \"Cancel\"\n                    }\n                },\n                {\n                    \"id\": \"save\",\n                    \"view\": {\n                        \"color\": \"success\",\n                        \"text\": \"Save\"\n                    }\n                }\n            ],\n            \"body\": [\n                \"cb_Info\",\n                \"cb_Name\",\n                \"cb_Destination\",\n                \"cb_DateTime\",\n                \"cb_Notes\"\n            ],\n            \"id\": \"CallbackForm\",\n            \"title\": \"Call back form\"\n        },\n        \"tag\": \"38-generateForm-custom-tag\"\n    },\n    {\n        \"break\": false,\n        \"if\": {\n            \"expression\": \"${CallbackForm} == 'save'\",\n            \"then\": [\n                {\n                    \"break\": false,\n                    \"if\": {\n                        \"else\": [\n                            {\n                                \"break\": false,\n                                \"js\": {\n                                    \"data\": \"var startDate = new Date();\\nvar endDate   = new Date(+${cb_DateTime});\\nreturn Math.floor((endDate.getTime() - startDate.getTime()) / 1000);\",\n                                    \"setVar\": \"cb_holdSec\"\n                                },\n                                \"tag\": \"43-js-custom-tag\"\n                            },\n                            {\n                                \"break\": false,\n                                \"callbackQueue\": {\n                                    \"communication\": {\n                                        \"destination\": \"${cb_Destination}\",\n                                        \"type_id\": \"${cb_CommunicationTypeId}\"\n                                    },\n                                    \"holdSec\": \"${cb_holdSec}\",\n                                    \"name\": \"${cb_Name}\",\n                                    \"queue_id\": \"${cb_DialerId}\",\n                                    \"variables\": {\n                                        \"Notes\": \"${cb_Notes}\"\n                                    }\n                                },\n                                \"tag\": \"41-customCode-custom-tag\"\n                            }\n                        ],\n                        \"expression\": \"!${cb_Destination} && !${cb_Name}\",\n                        \"then\": [\n                            {\n                                \"break\": false,\n                                \"formComponent\": {\n                                    \"id\": \"cb_Info\",\n                                    \"view\": {\n                                        \"color\": \"danger\",\n                                        \"component\": \"form-text\",\n                                        \"hint\": \"\",\n                                        \"initialValue\": \"Name and Phone number are required!\",\n                                        \"label\": \"\"\n                                    }\n                                },\n                                \"tag\": \"45-formText-custom-tag\"\n                            },\n                            {\n                                \"break\": false,\n                                \"goto\": \"32-formTextfield-custom-tag\",\n                                \"tag\": \"46-goto-custom-tag\"\n                            }\n                        ]\n                    },\n                    \"tag\": \"44-if-custom-tag\"\n                }\n            ]\n        },\n        \"tag\": \"39-if-custom-tag\"\n    },\n    {\n        \"break\": true,\n        \"log\": \"[Call back form]: The End\",\n        \"tag\": \"40-log-custom-tag\"\n    }\n]",
+    "payload": {
+        "id": "demo@0.1.0",
+        "nodes": {
+            "17": {
+                "data": {
+                    "extensions": {
+                        "tag": "17-start-custom-tag"
+                    }
+                },
+                "id": 17,
+                "inputs": {},
+                "name": "start",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 42
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    -234.0950523388446,
+                    -32.64923354896421
+                ]
+            },
+            "31": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "31-formText-custom-tag"
+                    },
+                    "id": "cb_Info",
+                    "view": {
+                        "color": "default",
+                        "hint": "",
+                        "initialValue": "Enter details to schedule a call back",
+                        "label": ""
+                    }
+                },
+                "id": 31,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 42,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "formText",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 32
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    144.5848409854149,
+                    -27.785808988095344
+                ]
+            },
+            "32": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "32-formTextfield-custom-tag"
+                    },
+                    "id": "cb_Name",
+                    "view": {
+                        "hint": "",
+                        "initialValue": "",
+                        "label": "Contact name",
+                        "textarea": false
+                    }
+                },
+                "id": 32,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 31,
+                                "output": "out"
+                            },
+                            {
+                                "data": {},
+                                "node": 46,
+                                "output": "goto"
+                            }
+                        ]
+                    }
+                },
+                "name": "formTextfield",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 34
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    169.8617779915131,
+                    157.2542151534912
+                ]
+            },
+            "34": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "34-formTextfield-custom-tag"
+                    },
+                    "id": "cb_Destination",
+                    "view": {
+                        "hint": "",
+                        "initialValue": "",
+                        "label": "Phone Number",
+                        "textarea": false
+                    }
+                },
+                "id": 34,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 32,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "formTextfield",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 35
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    387.8641023171944,
+                    162.52981341834646
+                ]
+            },
+            "35": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "35-formDatetimePicker-custom-tag"
+                    },
+                    "id": "cb_DateTime",
+                    "view": {
+                        "hint": "",
+                        "initialValue": 1663315228820,
+                        "label": "Preferred Date and Time"
+                    }
+                },
+                "id": 35,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 34,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "formDatetimePicker",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 37
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    604.2780192277125,
+                    162.39426132365213
+                ]
+            },
+            "37": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "37-formTextfield-custom-tag"
+                    },
+                    "id": "cb_Notes",
+                    "view": {
+                        "hint": "",
+                        "initialValue": "Notes",
+                        "label": "",
+                        "textarea": true
+                    }
+                },
+                "id": 37,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 35,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "formTextfield",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 38
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    880.1482786698965,
+                    158.33503259674828
+                ]
+            },
+            "38": {
+                "data": {
+                    "actions": [
+                        {
+                            "id": "cancel",
+                            "view": {
+                                "color": "danger",
+                                "text": "Cancel"
+                            }
+                        },
+                        {
+                            "id": "save",
+                            "view": {
+                                "color": "success",
+                                "text": "Save"
+                            }
+                        }
+                    ],
+                    "body": [
+                        {
+                            "name": "cb_Info"
+                        },
+                        {
+                            "name": "cb_Name"
+                        },
+                        {
+                            "name": "cb_Destination"
+                        },
+                        {
+                            "name": "cb_DateTime"
+                        },
+                        {
+                            "name": "cb_Notes"
+                        }
+                    ],
+                    "extensions": {
+                        "break": false,
+                        "tag": "38-generateForm-custom-tag"
+                    },
+                    "id": "CallbackForm",
+                    "title": "Call back form"
+                },
+                "id": 38,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 37,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "generateForm",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 39
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    864.0161913181374,
+                    337.9351973184923
+                ]
+            },
+            "39": {
+                "data": {
+                    "expression": "${CallbackForm} == 'save'",
+                    "extensions": {
+                        "break": false,
+                        "tag": "39-if-custom-tag"
+                    }
+                },
+                "id": 39,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 38,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "if",
+                "outputs": {
+                    "else": {
+                        "connections": []
+                    },
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 40
+                            }
+                        ]
+                    },
+                    "then": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 44
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    1104.5634408988692,
+                    379.68762590069446
+                ]
+            },
+            "40": {
+                "data": {
+                    "expression": "[Call back form]: The End",
+                    "extensions": {
+                        "break": true,
+                        "tag": "40-log-custom-tag"
+                    }
+                },
+                "id": 40,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 39,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "log",
+                "outputs": {
+                    "out": {
+                        "connections": []
+                    }
+                },
+                "position": [
+                    1278.0392802594072,
+                    501.1179207522249
+                ]
+            },
+            "41": {
+                "data": {
+                    "code": "{\n    \"callbackQueue\": {\n        \"communication\": {\n            \"destination\": \"${cb_Destination}\",\n            \"type_id\": \"${cb_CommunicationTypeId}\"\n        },\n        \"holdSec\": \"${cb_holdSec}\",\n        \"name\": \"${cb_Name}\",\n        \"queue_id\": \"${cb_DialerId}\",\n        \"variables\": {\n            \"Notes\": \"${cb_Notes}\"\n        }\n    }\n}",
+                    "extensions": {
+                        "break": false,
+                        "tag": "41-customCode-custom-tag"
+                    }
+                },
+                "id": 41,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 43,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "customCode",
+                "outputs": {
+                    "out": {
+                        "connections": []
+                    }
+                },
+                "position": [
+                    1675.2329225058556,
+                    327.5895189989685
+                ]
+            },
+            "42": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "42-set-custom-tag"
+                    },
+                    "set": [
+                        {
+                            "key": "cb_DialerId",
+                            "value": ""
+                        },
+                        {
+                            "key": "cb_CommunicationTypeId",
+                            "value": ""
+                        }
+                    ]
+                },
+                "id": 42,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 17,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "set",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 31
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    -67.4282207260357,
+                    -29.7831108892979
+                ]
+            },
+            "43": {
+                "data": {
+                    "data": "var startDate = new Date();\nvar endDate   = new Date(+${cb_DateTime});\nreturn Math.floor((endDate.getTime() - startDate.getTime()) / 1000);",
+                    "extensions": {
+                        "break": false,
+                        "tag": "43-js-custom-tag"
+                    },
+                    "setVar": "cb_holdSec"
+                },
+                "id": 43,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 44,
+                                "output": "else"
+                            }
+                        ]
+                    }
+                },
+                "name": "js",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 41
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    1482.0348129839208,
+                    285.9952605542465
+                ]
+            },
+            "44": {
+                "data": {
+                    "expression": "!${cb_Destination} && !${cb_Name}",
+                    "extensions": {
+                        "break": false,
+                        "tag": "44-if-custom-tag"
+                    }
+                },
+                "id": 44,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 39,
+                                "output": "then"
+                            }
+                        ]
+                    }
+                },
+                "name": "if",
+                "outputs": {
+                    "else": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 43
+                            }
+                        ]
+                    },
+                    "out": {
+                        "connections": []
+                    },
+                    "then": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 45
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    1281.1644733220496,
+                    200.13607101396835
+                ]
+            },
+            "45": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "45-formText-custom-tag"
+                    },
+                    "id": "cb_Info",
+                    "view": {
+                        "color": "danger",
+                        "hint": "",
+                        "initialValue": "Name and Phone number are required!",
+                        "label": ""
+                    }
+                },
+                "id": 45,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 44,
+                                "output": "then"
+                            }
+                        ]
+                    }
+                },
+                "name": "formText",
+                "outputs": {
+                    "out": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 46
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    1470.9835689960087,
+                    133.55706104959273
+                ]
+            },
+            "46": {
+                "data": {
+                    "extensions": {
+                        "break": false,
+                        "tag": "46-goto-custom-tag"
+                    },
+                    "goto": "32-formTextfield-custom-tag"
+                },
+                "id": 46,
+                "inputs": {
+                    "in": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "node": 45,
+                                "output": "out"
+                            }
+                        ]
+                    }
+                },
+                "name": "goto",
+                "outputs": {
+                    "goto": {
+                        "connections": [
+                            {
+                                "data": {},
+                                "input": "in",
+                                "node": 32
+                            }
+                        ]
+                    }
+                },
+                "position": [
+                    1729.7420792989508,
+                    -29.867170189639893
+                ]
+            }
+        }
+    }
+}
