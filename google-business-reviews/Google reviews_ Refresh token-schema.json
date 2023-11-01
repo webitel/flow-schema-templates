@@ -1,0 +1,23 @@
+{
+    "tags": [
+        {
+            "name": "google"
+        }
+    ],
+    "editor": false,
+    "type": "service",
+    "payload": {},
+    "schema": "[\n    {\n        \"httpRequest\": {\n            \"data\": {\n                \"access_type\": \"offline\",\n                \"client_id\": \"%%CHANGE_ME%%\",\n                \"client_secret\": \"%%CHANGE_ME%%\",\n                \"grant_type\": \"refresh_token\",\n                \"refresh_token\": \"%%CHANGE_ME%%\"\n            },\n            \"exportVariables\": {\n                \"access_token\": \"access_token\"\n            },\n            \"headers\": {\n                \"Content-Type\": \"application/json; charset=utf-8\"\n            },\n            \"insecureSkipVerify\": false,\n            \"method\": \"POST\",\n            \"parser\": \"application/json\",\n            \"responseCode\": \"http_response_code\",\n            \"timeout\": 2000,\n            \"url\": \"https://oauth2.googleapis.com/token \"\n        }\n    },\n    {\n        \"cache\": {\n            \"action\": \"set\",\n            \"set\": {\n                \"data\": {\n                    \"google_review_access_token\": \"Bearer ${access_token}\"\n                },\n                \"ttl\": \"3600\"\n            },\n            \"type\": \"redis\"\n        }\n    }\n]",
+    "id": "1440",
+    "createdAt": "1698831463148",
+    "createdBy": {
+        "id": "130",
+        "name": "Євген Волошин"
+    },
+    "updatedAt": "1698831585962",
+    "updatedBy": {
+        "id": "130",
+        "name": "Євген Волошин"
+    },
+    "name": "Google reviews: Refresh token"
+}
